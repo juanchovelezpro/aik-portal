@@ -1,7 +1,7 @@
 
 The following diagram represents a solution for this project (AIK).
 
-[![Diagram Solution]("Diagram Solution")](https://i.pinimg.com/originals/03/cc/51/03cc51deb5a00a2275a835c5e46e8759.png "Diagram Solution")
+[![Diagram Solution]("Diagram Solution")](https://github.com/juanchovelezpro/aik-portal/blob/diagram/archicteture_diagram_solution_aik.png "Diagram Solution")
 
 The diagram was generated with the tool Diagrams (a package for Python)
 
