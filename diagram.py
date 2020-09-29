@@ -14,10 +14,10 @@ with Diagram("AIK Archicteture Diagram Solution", show=False):
     
     with vpc:
         loadBal = ELB("ELB")    
+        jenkins = EC2("Jenkins CI/CD Server")
         with Cluster("EC2 Instances - AutoScaling Group"):
             ec2_1 = EC2("AIK App")
             ec2_2 = EC2("AIK App")
-            jenkins = EC2("Jenkins CI/CD Server")  
         with Cluster("DB RDS MySQL"):
             rds = RDS("")
    
