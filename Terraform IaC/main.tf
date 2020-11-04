@@ -147,8 +147,8 @@ resource "aws_security_group" "aik-sg-portal" {
 
 resource "aws_autoscaling_group" "aik_autoscaling" {
   launch_configuration = aws_launch_configuration.aik-lcfg.name
-  min_size             = 2
-  max_size             = 3
+  min_size             = 1
+  max_size             = 1
   vpc_zone_identifier  = [aws_subnet.aik-subnet-public1.id, aws_subnet.aik-subnet-public2.id]
   target_group_arns    = [aws_lb_target_group.asg.arn]
 
@@ -168,21 +168,7 @@ resource "aws_launch_configuration" "aik-lcfg" {
   instance_type   = var.aik_instance_type
   security_groups = [aws_security_group.aik-sg-portal.id]
   key_name        = var.aik_key_name
-  user_data       = <<EOF
-        #!/bin/bash
-        sudo yum install -y git 
-        #Clone salt repo
-        git clone https://github.com/juanchovelezpro/aik-portal /app/
-        sudo chmod -R 777 /app/
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-        . ~/.nvm/nvm.sh
-        export NVM_DIR="$HOME/.nvm"
-        nvm install node
-        cd /app/aik-app-ui
-        npm install
-        node server.js
-        #Install Node
-        EOF
+  user_data       = file("../scripts/nvm.sh")
 }
 
 
@@ -206,10 +192,7 @@ resource "aws_s3_bucket" "bucket-aik-files" {
   }
 }
 
-/**
-* ### Create Database RDS to save data ###
-*/
-
+# Database instance
 
  resource "aws_db_instance" "aik-rds" {
    allocated_storage    = 20
@@ -221,6 +204,10 @@ resource "aws_s3_bucket" "bucket-aik-files" {
    username             = var.db_username
    password             = var.db_password
    parameter_group_name = "default.mysql5.7"
+   port = 3306 
+   publicly_accessible = false
+   vpc_security_groups_ids = aws_security_group.aik-sg-portal.id
+   multi_az = false
 }
 
 

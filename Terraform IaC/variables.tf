@@ -59,11 +59,3 @@ variable "db_username" {
   default     = "aik-portal"
 
 }
-
-variable "db_password"{
-
-  description = "Database password"
-  type        = string
-  default     = "aikadmin"
-
-}
