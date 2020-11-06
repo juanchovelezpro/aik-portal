@@ -128,6 +128,11 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.rtb-private.id
 }
 
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.rtb-private.id
+}
+
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.aik-subnet-public1.id
   route_table_id = aws_route_table.rtb-public.id
