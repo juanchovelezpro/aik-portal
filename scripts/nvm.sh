@@ -4,12 +4,24 @@
         #Clone salt repo
         git clone https://github.com/juanchovelezpro/aik-portal /app/
         sudo chmod -R 777 /app/
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+        sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
         . ~/.nvm/nvm.sh
         export NVM_DIR="$HOME/.nvm"
-        nvm install node
+        sudo nvm install node
         cd /app/aik-app-ui
-        npm install
-        node server.js
+        sudo npm install
+        sudo node server.js
         #Install Node
+        #salt
+        mkdir -p /srv/app
+        sudo chmod 777 /srv/app
+        git clone
+        #install salt
+        sudo yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest.el7.noarch.rpm
+        #config roles name
+        sudo cp -r /srv/app/conf/minion.d /etc/salt/
+        echo -e 'grains:\n roles:\n - frontend' > /etc/salt/minion.d/
+        echo -e 'grains:\n roles:\n - backend' > /etc/salt/minion.d/
+
+        sudo salt-call state.apply
 EOF
