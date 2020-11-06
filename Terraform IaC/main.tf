@@ -208,6 +208,7 @@ resource "aws_s3_bucket" "bucket-aik-files" {
    publicly_accessible = false
    vpc_security_groups_ids = aws_security_group.aik-sg-portal.id
    multi_az = false
+   final_snapshot_identifier = "aik-rds-est1"
 }
 
 
