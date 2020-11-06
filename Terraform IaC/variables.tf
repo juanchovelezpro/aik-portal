@@ -40,6 +40,11 @@ variable "alb_name" {
   default     = "alb1-aik"
 }
 
+variable "subnet_db"{
+  type = string
+  default = "automatizacion-est1-private"
+}
+
 variable "instance_security_group_name" {
   description = "The name of the security group for the EC2 Instances"
   type        = string
@@ -56,6 +61,6 @@ variable "db_username" {
 
   description = "Database username"
   type        = string
-  default     = "aik-portal"
+  default     = "aikportal"
 
 }

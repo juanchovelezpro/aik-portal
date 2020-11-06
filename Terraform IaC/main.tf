@@ -82,12 +82,21 @@ resource "aws_subnet" "aik-subnet-public1" {
 resource "aws_subnet" "aik-subnet-public2" {
 
   vpc_id                  = aws_vpc.aik-vpc.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, 3)
+  cidr_block              = cidrsubnet(var.vpc_cidr, 8, 2)
   availability_zone       = element(split(",", var.aws_availability_zones), 1)
   map_public_ip_on_launch = true
 
   tags = {
     Name = "automatizacion-est1-subPublic2"
+  }
+}
+
+resource "aws_db_subnet_group" "aik-subnet-group-db" {
+  name       = "main"
+  subnet_ids = [aws_subnet.private.id,aws_subnet.private2.id]
+
+  tags = {
+    Name = "My DB subnet group"
   }
 }
 
@@ -100,6 +109,17 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "automatizacion-est1-private"
+  }
+}
+
+resource "aws_subnet" "private2" {
+
+  vpc_id            = aws_vpc.aik-vpc.id
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, 4)
+  availability_zone = element(split(",", var.aws_availability_zones), 1)
+
+  tags = {
+    Name = "automatizacion-est1-private2"
   }
 }
 
@@ -195,18 +215,20 @@ resource "aws_s3_bucket" "bucket-aik-files" {
 # Database instance
 
  resource "aws_db_instance" "aik-rds" {
+   depends_on = [aws_db_subnet_group.aik-subnet-group-db,]
    allocated_storage    = 20
    storage_type         = "gp2"
    engine               = "mysql"
    engine_version       = "5.7"
    instance_class       = "db.t2.micro"
-   name                 = "aik-database"
+   name                 = "aikdatabase"
    username             = var.db_username
    password             = var.db_password
    parameter_group_name = "default.mysql5.7"
    port = 3306 
    publicly_accessible = false
    vpc_security_group_ids = [aws_security_group.aik-sg-portal.id]
+   db_subnet_group_name = "${aws_db_subnet_group.aik-subnet-group-db.name}"
    multi_az = false
    final_snapshot_identifier = "aik-rds-est1"
 }
