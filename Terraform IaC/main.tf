@@ -89,14 +89,14 @@ resource "aws_subnet" "aik-subnet-public2" {
   }
 }
 
-resource "aws_db_subnet_group" "aik-subnet-group-db" {
-  name       = "main"
-  subnet_ids = [aws_subnet.aik-subnet-public1.id,aws_subnet.aik-subnet-public2.id]
+# resource "aws_db_subnet_group" "aik-subnet-group-db" {
+#   name       = "main"
+#   subnet_ids = [aws_subnet.aik-subnet-public1.id,aws_subnet.aik-subnet-public2.id]
 
-  tags = {
-    Name = "My DB subnet group"
-  }
-}
+#   tags = {
+#     Name = "My DB subnet group"
+#   }
+# }
 
 # Create and associate private subnets with a route table
 resource "aws_subnet" "private" {
@@ -217,24 +217,24 @@ resource "aws_s3_bucket" "bucket-aik-files" {
 
 # Database instance
 
- resource "aws_db_instance" "aik-rds" {
-   depends_on = [aws_db_subnet_group.aik-subnet-group-db,]
-   allocated_storage    = 20
-   storage_type         = "gp2"
-   engine               = "mysql"
-   engine_version       = "5.7"
-   instance_class       = "db.t2.micro"
-   name                 = "aikdatabase"
-   username             = var.db_username
-   password             = var.db_password
-   parameter_group_name = "default.mysql5.7"
-   port = 3306 
-   publicly_accessible = false
-   vpc_security_group_ids = [aws_security_group.aik-sg-portal.id]
-   db_subnet_group_name = "${aws_db_subnet_group.aik-subnet-group-db.name}"
-   multi_az = false
-   final_snapshot_identifier = "aik-rds-est1"
-}
+#  resource "aws_db_instance" "aik-rds" {
+#    depends_on = [aws_db_subnet_group.aik-subnet-group-db,]
+#    allocated_storage    = 20
+#    storage_type         = "gp2"
+#    engine               = "mysql"
+#    engine_version       = "5.7"
+#    instance_class       = "db.t2.micro"
+#    name                 = "aikdatabase"
+#    username             = var.db_username
+#    password             = var.db_password
+#    parameter_group_name = "default.mysql5.7"
+#    port = 3306 
+#    publicly_accessible = false
+#    vpc_security_group_ids = [aws_security_group.aik-sg-portal.id]
+#    db_subnet_group_name = "${aws_db_subnet_group.aik-subnet-group-db.name}"
+#    multi_az = false
+#    final_snapshot_identifier = "aik-rds-est1"
+# }
 
 
 
