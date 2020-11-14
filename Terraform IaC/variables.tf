@@ -26,7 +26,7 @@ variable "aik_instance_type" {
 
 variable "aik_key_name" {
   description = "Key pair name"
-  default     = "estudiante1"
+  default     = "estudianteAutomatizacion1"
 }
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
@@ -38,6 +38,11 @@ variable "alb_name" {
   description = "The name of the ALB"
   type        = string
   default     = "alb1-aik"
+}
+
+variable "subnet_db"{
+  type = string
+  default = "automatizacion-est1-private"
 }
 
 variable "instance_security_group_name" {
@@ -56,6 +61,6 @@ variable "db_username" {
 
   description = "Database username"
   type        = string
-  default     = "aik-portal"
+  default     = "aikportal"
 
 }

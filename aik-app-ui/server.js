@@ -3,7 +3,7 @@
 // Declare our dependencies
 var express = require('express');
 var request = require('superagent');
-var backendHost = process.env.BACK_HOST || '172.17.0.2' || '172.17.0.3';
+var backendHost = process.env.BACK_HOST || 'localhost';
 // Create our express app
 var app = express();
 
