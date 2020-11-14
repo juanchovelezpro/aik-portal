@@ -9,7 +9,9 @@ cd /srv/app
 git checkout develop
 git pull
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+curl -o https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh
+chmod +x install.sh
+./install.sh
 . ~/.nvm/nvm.sh
 export NVM_DIR="$HOME/.nvm"
 nvm install node
