@@ -4,17 +4,9 @@ sudo yum install -y git
 mkdir -p /srv/app
 sudo chmod 777 /srv/app
 git clone https://github.com/juanchovelezpro/aik-portal /srv/app
-sudo chmod -R 777 /app/
-sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash 
-. ~/.nvm/nvm.sh
-export NVM_DIR="$HOME/.nvm"
-nvm install node
 cd /srv/app
-sudo chmod 777 aik-app-ui
-cd aik-app-ui
-sudo chmod 777 package-lock.json
-sudo chmod 777 package.json
-npm install
+git checkout develop
+git pull
 #Install Node
 #salt
 #install salt
