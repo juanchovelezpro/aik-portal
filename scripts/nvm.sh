@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo yum update -y
 sudo yum install -y git 
 #Clone salt repo
 mkdir -p /srv/app
@@ -7,9 +8,8 @@ git clone https://github.com/juanchovelezpro/aik-portal /srv/app
 cd /srv/app
 git checkout develop
 git pull
-#Install Node
-#salt
-#install salt
+
+#Install salt
 sudo yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest.el7.noarch.rpm
 sudo yum clean expire-cache;sudo yum -y install salt-minion; chkconfig salt-minion off
 #config roles name
