@@ -26,7 +26,7 @@ variable "aik_instance_type" {
 
 variable "aik_key_name" {
   description = "Key pair name"
-  default     = "estudiante1"
+  default     = "estudianteAutomatizacion1"
 }
 variable "server_port" {
   description = "The port the server will use for HTTP requests"

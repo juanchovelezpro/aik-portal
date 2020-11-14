@@ -1,3 +1,10 @@
-Install git:
-    cmd.run:
-    - name: "sudo rpm --import http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco && sudo yum -y install git"
+include:
+  - nodejs
+  - frontend
+install_npm_dependencies:
+  npm.bootstrap:
+    - name: /srv/app/aik-app-api
+
+run_aik_portal:
+  cmd.run:
+    - name: "nohup node /srv/app/aik-app-api/server.js > output.log &"
