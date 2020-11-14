@@ -1,7 +1,5 @@
 base:
-  'roles:aik-portal':
-    - match: grain
+  'aik-portal':
     - nodejs
-    - frontend
     - backend
-    
+    - frontend
