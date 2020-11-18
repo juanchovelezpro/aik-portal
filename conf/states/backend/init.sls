@@ -1,6 +1,7 @@
 include:
   - nodejs
   - frontend
+  
 install_npm_dependencies:
   npm.bootstrap:
     - name: /srv/app/aik-app-api

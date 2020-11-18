@@ -1,11 +1,5 @@
-
 include:
   - nodejs
-
-aik-ui:
-  git.latest:
-    - name: https://github.com/juanchovelezpro/aik-portal
-    - target: /srv/app
 
 install_npm_dependencies:
   npm.bootstrap:
