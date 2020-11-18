@@ -27,4 +27,4 @@ sudo yum clean expire-cache;sudo yum -y install salt-minion; chkconfig salt-mini
 sudo cp -r /srv/app/conf/minion.d /etc/salt/
 echo -e 'grains:\n roles:\n - aik-portal' > /etc/salt/minion.d/grains.conf
 #sudo chown -hR ec2-user /var
-sudo salt-call state.apply
+sudo salt-call state.apply > ~/call.log
