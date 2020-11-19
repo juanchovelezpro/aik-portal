@@ -7,4 +7,4 @@ install_npm_dependencies:
 
 run_aik_portal:
   cmd.run:
-    - name: "nohup node /srv/app/aik-app-ui/server.js > outputFront.log &"
+    - name: "nohup node /srv/app/aik-app-ui/server.js >> outputFront.log &"

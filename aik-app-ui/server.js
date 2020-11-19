@@ -75,4 +75,5 @@ app.get('/experience', function(req, res){
     })
 })
 
+console.log("Backendhost "+backendHost);
 module.exports = app.listen(3030);
