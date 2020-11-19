@@ -8,4 +8,4 @@ install_back_npm_dependencies:
 
 run_back_aik_portal:
   cmd.run:
-    - name: "nohup node /srv/app/aik-app-api/server.js > ~/outputBack.log &"
+    - name: "nohup node /srv/app/aik-app-api/server.js > outputBack.log &"
