@@ -4,7 +4,7 @@ nodejs_prereq:
       - gcc-c++
       - make
   cmd.run:
-    - name: "curl -sL https://rpm.nodesource.com/setup_11.x | sudo -E bash -"
+    - name: "curl -sL https://rpm.nodesource.com/setup_15.x | sudo -E bash -"
 
 nodejs:
   pkg.installed:
