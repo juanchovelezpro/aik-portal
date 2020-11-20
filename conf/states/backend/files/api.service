@@ -2,7 +2,7 @@
 Description=Aik-app Backend
 
 [Service]
-ExecStart=/srv/app/aik-app-api/server.js
+ExecStart=/bin/bash /srv/app/aik-app-api/startBack.sh
 Restart=always
 User=nobody
 # Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
