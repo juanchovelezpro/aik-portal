@@ -1,11 +1,23 @@
 include:
   - nodejs
-  - frontend
-  
+
 install_back_npm_dependencies:
   npm.bootstrap:
     - name: /srv/app/aik-app-api
 
-run_back_aik_portal:
+api.service:
+  file.managed:
+    - name: /etc/systemd/system/api.service
+    - source: salt://backend/files/api.service
+
+/srv/app/aik-app-api/server.js:
+  file.managed:
+    - mode: 777
+
+system-reload-backend:
   cmd.run:
-    - name: "nohup node /srv/app/aik-app-api/server.js >> outputBack.log &"
+    - name: "sudo systemctl --system daemon-reload"
+  service.running:
+    - name: api
+    - reload: True
+    - enable: True
