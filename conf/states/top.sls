@@ -4,3 +4,4 @@ base:
     - frontend
     - backend
     - nodejs
+    - yum-s3
