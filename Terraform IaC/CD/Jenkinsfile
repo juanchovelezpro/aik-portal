@@ -1,0 +1,71 @@
+#!groovy
+
+node {
+
+  step([$class: 'WsCleanup'])
+
+  stage "Checkout Git repo"
+    checkout scm
+
+  stage "Checkout additional repos"
+    dir("Configuration_management") {
+      git "https://github.com/juanchovelezpro/aik-portal"
+    }
+    dir("aik-app-api") {
+      git "https://github.com/juanchovelezpro/aik-portal"
+    }
+
+    dir("aik-app-ui") {
+      git "https://github.com/juanchovelezpro/aik-portal"
+    }
+
+    dir("infraestructura") {
+      git "https://github.com/juanchovelezpro/aik-portal"
+    }
+
+
+  stage "Run Packer"
+    sh "/usr/local/bin/packer validate -var=\"appVersion=${params.APP_VERSION}\" -var-file=CD/packer/aik-app_vars.json CD/packer/aik-app.json"
+    sh "/usr/local/bin/packer build -machine-readable -var=\"appVersion=${params.APP_VERSION}\" -var-file=CD/packer/aik-app_vars.json CD/packer/aik-app.json | tee CD/packer/packer.log"
+
+  stage "Deploy AMI"
+
+    string amiIdUnFormat = sh returnStdout: true, script:"tail -n1 CD/packer/packer.log | awk '{printf \$NF}' "
+    def amiId = amiIdUnFormat.replace("\\n","")
+    def ec2Keypair = "estudianteAutomatizacion1"
+    def secGroup = "sg-0cdb944ac76257cbd"
+    def instanceType = "t2.micro"
+    def subnetId = "subnet-093684400814a3ebf"
+
+    sh "tail -n1 CD/packer/packer.log"
+    sh "cat CD/packer/packer.log"
+    echo "Esto tiene packer.log \$(cat CD/packer/packer.log)"
+    echo "Launching an instance from ${amiId}"
+    sh "aws ec2 run-instances \
+        --region us-east-2 \
+        --image-id ${amiId} \
+        --key-name ${ec2Keypair} \
+        --security-group-ids ${secGroup} \
+        --instance-type ${instanceType} \
+        --subnet-id ${subnetId} \
+        | tee .ec2_run-instances.log \
+       "
+
+    
+    def instanceId = sh returnStdout: true, script: "printf \$(jq .Instances[0].InstanceId < .ec2_run-instances.log)"
+
+    sh "aws ec2 create-tags --resources ${instanceId} \
+        --region us-east-2 \
+        --tags Key=Name,Value=\"Jenkins (aik-app-${params.APP_VERSION})\" Key=CreatedBy,Value=Jenkins"
+    
+    echo "Waiting for the instance to come into service"
+    sh "aws ec2 wait instance-running --instance-ids ${instanceId}"
+    sleep 60
+    echo "Registering with ELB"
+    def elbId = "alb1-aik"
+    sh "aws elbv2 register-targets \
+    --region us-west-2 \
+    --target-group-arn arn:aws:elasticloadbalancing:us-east-2:682086073548:loadbalancer/app/alb1-aik/19d598cd96e7ece1 \
+    --targets Id=${instanceId}"
+  
+}

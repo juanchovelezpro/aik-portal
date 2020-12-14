@@ -99,28 +99,6 @@ resource "aws_subnet" "aik-subnet-public2" {
 # }
 
 # Create and associate private subnets with a route table
-resource "aws_subnet" "private" {
-
-  vpc_id            = data.aws_vpc.aik-vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, 10)
-  availability_zone = element(split(",", var.aws_availability_zones), 2)
-
-  tags = {
-    Name = "automatizacion-est1-private"
-  }
-}
-
-resource "aws_subnet" "private2" {
-
-  vpc_id            = data.aws_vpc.aik-vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, 11)
-  availability_zone = element(split(",", var.aws_availability_zones), 1)
-
-  tags = {
-    Name = "automatizacion-est1-private2"
-  }
-}
-
 resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.rtb-private.id
