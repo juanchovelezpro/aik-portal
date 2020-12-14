@@ -8,7 +8,7 @@ node {
     checkout scm
 
   stage "Checkout additional repos"
-    dir("Configuration_management") {
+    dir("conf") {
       git "https://github.com/juanchovelezpro/aik-portal"
     }
     dir("aik-app-api") {
@@ -19,7 +19,7 @@ node {
       git "https://github.com/juanchovelezpro/aik-portal"
     }
 
-    dir("infraestructura") {
+    dir("Terraform IaC") {
       git "https://github.com/juanchovelezpro/aik-portal"
     }
 
