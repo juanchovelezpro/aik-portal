@@ -98,7 +98,6 @@ resource "aws_subnet" "aik-subnet-public2" {
 #   }
 # }
 
-# Create and associate private subnets with a route table
 resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.rtb-private.id
